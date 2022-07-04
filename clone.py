@@ -34,7 +34,6 @@ my_parser.add_argument('url', type=git_url_type, help='the git url to clone')
 args = my_parser.parse_args()
 
 # Extract info from the url
-git_url = args.url.string
 git_url_host, git_url_path = itemgetter('host', 'path')(args.url.groupdict())
 clone_path = Path(os.path.expanduser(SRC_PATH), git_url_host, git_url_path)
 
@@ -46,7 +45,8 @@ if clone_path.exists():
     )
 
 # Clone the repository
-subprocess.check_call(['git', 'clone', git_url, clone_path])
+git_clone_url = f'git@{git_url_host}:{git_url_path}.git'
+subprocess.check_call(['git', 'clone', git_clone_url, clone_path])
 
 # Print helper to `cd` in the directory
 print(f'\nAccess cloned directory:\ncd {clone_path}')
