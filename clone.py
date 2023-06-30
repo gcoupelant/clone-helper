@@ -11,7 +11,7 @@ SRC_PATH = "~/src"
 
 # Create the regex for the url
 git_url_re = re.compile(
-    r"^(?:git@|https?:\/\/)(?P<host>\S+?)(?::|\/)(?P<path>\S+?)(?:.git)?$")
+    r"^(?:git@|https?:\/\/)(?P<host>\S+?)(?::|\/)(?P<path>\S+?)\/?(?:.git)?$")
 
 
 # Create the type parser
