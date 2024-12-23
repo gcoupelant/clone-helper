@@ -9,8 +9,18 @@ After cloning this repository, simply create an executable script in your `$PATH
 For example, from the cloned repository directory, you can run:
 
 ```bash
-$ echo "$PWD/clone.py \$@" | sudo tee /usr/local/bin/clone
-$ sudo chmod +x /usr/local/bin/clone
+$ echo "$PWD/clone.py \$@" | sudo tee /usr/local/bin/clone-helper
+$ sudo chmod +x /usr/local/bin/clone-helper
+```
+
+For an even better experience, you can also source the output of the command (which is `cd` followed by the target directory).
+That way your terminal will automatically change directory, even if it already exist.
+
+Add the following function to you `.bashrc`:
+```bash
+function clone {
+    source <(clone-helper -q $@)
+}
 ```
 
 ### Root of your source directory
@@ -27,4 +37,4 @@ For example, cloning https://github.com/gcoupelant/clone-helper:
 $ clone git@github.com:gcoupelant/clone-helper.git
 ```
 
-This will clone the repository to `~/src/github.com/gcoupelant/clone-helper`.
+This will clone the repository to `~/src/github.com/gcoupelant/clone-helper` and change you current directory to it.
