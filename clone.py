@@ -50,7 +50,16 @@ if clone_path.exists():
 
 # Clone the repository
 git_clone_url = f"git@{git_url_host}:{git_url_path}.git"
-subprocess.check_call(["git", "clone", git_clone_url, clone_path])
+# Configure SSH for non-interactive mode
+env = os.environ.copy()
+env['GIT_SSH_COMMAND'] = 'ssh -o BatchMode=yes'
+try:
+    subprocess.check_call(["git", "clone", git_clone_url, str(clone_path)], env=env)
+except subprocess.CalledProcessError as e:
+    print(f"\nError: git clone failed with exit code {e.returncode}", file=sys.stderr)
+    print("\nHint: If you see 'Host key verification failed', run this command manually once:", file=sys.stderr)
+    print(f"  git clone {git_clone_url} {clone_path}", file=sys.stderr)
+    raise SystemExit(e.returncode)
 
 # Print helper to `cd` in the directory
 if not args.quiet:
